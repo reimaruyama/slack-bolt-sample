@@ -1,11 +1,20 @@
 import { ModalViewsBuilder } from "./modalViewsBuilder";
 
-const { App } = require('@slack/bolt');
+const { App, ExpressReceiver } = require('@slack/bolt');
+
+const receiver = new ExpressReceiver({
+  signingSecret: process.env.SLACK_SIGNING_SECRET
+})
 
 // Initializes your app with your bot token and signing secret
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
-  signingSecret: process.env.SLACK_SIGNING_SECRET
+  receiver: receiver
+});
+
+// Health Check Endpoint
+receiver.app.get('/', (_, res) => {
+  res.status(200).send();
 });
 
 // コマンド起動をリッスン
