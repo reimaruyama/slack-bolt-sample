@@ -83,14 +83,14 @@ app.view('view_1', async ({ ack, body, view, context, }) => {
       user: user.id,
       text: text
     })
-    console.log(result)
+    console.debug(result)
     // 通知
     const resultNotification = app.client.chat.postMessage({
       token: context.botToken,
       channel: user.id,
       text: `${date} ${time} にリマインダーをセットしたよ！`
     });
-    console.log(resultNotification);
+    console.debug(resultNotification);
   } catch(error) {
     console.error(error);
     const resultNotification = app.client.chat.postMessage({
