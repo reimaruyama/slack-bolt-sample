@@ -18,7 +18,7 @@ receiver.app.get('/', (_, res) => {
 });
 
 // コマンド起動をリッスン
-app.command('/wanpati', ({ ack, payload, context }) => {
+app.command('/addreminder', ({ ack, payload, context }) => {
   // コマンドのリクエストを確認
   ack();
   const views = ModalViewsBuilder.standardViews()
