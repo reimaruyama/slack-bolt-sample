@@ -17,7 +17,7 @@ export class ModalViewsBuilder {
 
     return {
       "type": "modal",
-      "callback_id": 'view_1',
+      "callback_id": "view_1",
       "title": {
         "type": "plain_text",
         "text": "リマインダー",
