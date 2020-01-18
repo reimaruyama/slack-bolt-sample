@@ -79,6 +79,15 @@ export class ModalViewsBuilder {
             "text": "リマインドする内容を入力してね",
             "emoji": true
           }
+        },
+        {
+          "type": "context",
+          "elements": [
+            {
+              "type": "mrkdwn",
+              "text": "*できないこと:* \n   - 他のユーザーへのリマインダーの追加 \n   - 定期的なリマインダーの追加"
+            }
+          ]
         }
       ]
     }
