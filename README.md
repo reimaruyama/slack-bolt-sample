@@ -55,11 +55,13 @@ cdk stack
 // lib/aws-cdk-low-level-construct-library-sample-stack.ts
 
 import cdk = require('@aws-cdk/core');
+import ec2 = require('@aws-cdk/aws-ec2/lib');
 import ecr = require("@aws-cdk/aws-ecr");
 import ecs = require('@aws-cdk/aws-ecs');
 import ecsPatterns = require('@aws-cdk/aws-ecs-patterns');
 import Logs = require("@aws-cdk/aws-logs")
 import secretsmanager = require('@aws-cdk/aws-secretsmanager');
+
 
 export class BoltReminderDeployStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -67,6 +69,7 @@ export class BoltReminderDeployStack extends cdk.Stack {
 
     const logGroup = new Logs.LogGroup(this, 'bolt-sample-LogGroup', {
       logGroupName: 'bolt-sample-LogGroup',
+      retention: Logs.RetentionDays.ONE_MONTH,
     });
 
     const repository = ecr.Repository.fromRepositoryArn(
@@ -75,8 +78,13 @@ export class BoltReminderDeployStack extends cdk.Stack {
       process.env.REPOSITORY_ARN ?? ""
     );
 
+    const vpc = ec2.Vpc.fromLookup(this, 'VPC', {
+      vpcId: process.env.VPC_ID,
+    });
+
     const cluster = new ecs.Cluster(this, 'BoltCluster', {
       clusterName: 'BoltCluster',
+      vpc: vpc,
     });
 
     const fargateLogdriver = new ecs.AwsLogDriver({
@@ -105,12 +113,12 @@ export class BoltReminderDeployStack extends cdk.Stack {
 
     const appLoadBalancedFargateService = new ecsPatterns.ApplicationLoadBalancedFargateService(this, 'BoltService', {
       cluster: cluster,
-      memoryLimitMiB: 1024,
-      cpu: 512,
+      memoryLimitMiB: 512,
+      cpu: 256,
       desiredCount: 1,
-      taskDefinition: taskDefinition
+      taskDefinition: taskDefinition,
+      assignPublicIp: true,
     });
   }
 }
-
 ```
