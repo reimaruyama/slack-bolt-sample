@@ -62,7 +62,7 @@ export class ModalViewsBuilder {
           },
           "label": {
             "type": "plain_text",
-            "text": "時間を入力してね",
+            "text": "時間を入力してね (0:00 ~ 23:59)",
             "emoji": true
           }
         },
