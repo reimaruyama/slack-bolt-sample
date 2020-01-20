@@ -10,7 +10,6 @@ Add a reminder from Modal GUI
   - `http(s)://YOUR_ENDPOINT:YOUR_APP_PORT/slack/events`
   
 - To
-	- Event Subscriptions >> Request URL
 	- Interactive Components >> Request URL
 	- Interactive Components >> Select Menus >> Options Load URL
 	- slash command >> edit command >> Request URL
@@ -18,13 +17,10 @@ Add a reminder from Modal GUI
 - Add Scopes
   - Bot Token Scopes
     - commands
-    - channels:manage
+    - chat:write
     - reminders:write
     - reminders:read
-  - User Token Scopes
-    - reminders:read
-    - reminders:write
-
+    
 ## Appendix: Deploy sample to ECS(on Fargate) using CDK
 
 push docker file to your ecr
