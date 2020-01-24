@@ -77,7 +77,7 @@ app.view('view_1', async ({ ack, body, view, context, }) => {
 
   try {
     // reminder を追加
-    const result = app.client.reminders.add({
+    const result = await app.client.reminders.add({
       token: process.env.SLACK_USER_TOKEN,
       time: reminderTimeUnix,
       user: user.id,
@@ -85,7 +85,7 @@ app.view('view_1', async ({ ack, body, view, context, }) => {
     })
     console.debug(result)
     // 通知
-    const resultNotification = app.client.chat.postMessage({
+    const resultNotification = await app.client.chat.postMessage({
       token: context.botToken,
       channel: user.id,
       text: `${date} ${time} にリマインダーをセットしたよ！`
@@ -93,7 +93,8 @@ app.view('view_1', async ({ ack, body, view, context, }) => {
     console.debug(resultNotification);
   } catch(error) {
     console.error(error);
-    const resultNotification = app.client.chat.postMessage({
+
+    const resultNotification = await app.client.chat.postMessage({
       token: context.botToken,
       channel: user.id,
       text: `ごめんね、できなかったみたい...`
