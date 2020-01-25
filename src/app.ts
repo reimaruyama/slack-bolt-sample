@@ -1,4 +1,5 @@
 import { ModalViewsBuilder } from "./modalViewsBuilder";
+import { ModalInputValidater } from "./modalInputValidater";
 
 const { App, ExpressReceiver } = require('@slack/bolt');
 
@@ -50,30 +51,17 @@ app.view('view_1', async ({ ack, body, view, context, }) => {
   const text = view['state']['values']['text']['text']['value'];
   const user = body['user'];
 
-  // バリデーション 時刻が正規表現にマッチするか確認
-  if (!timePattern.test(time)) {
-    const resultNotification = app.client.chat.postMessage({
+  const result =  new ModalInputValidater(date, time).call();
+
+  if (!result.isValid) {
+    return await app.client.chat.postMessage({
       token: context.botToken,
       channel: user.id,
-      text: `追加できなかった :sweat_drops:\n時刻には00:00~23:59までの値を入力してね`
+      text: result.responseMessage,
     });
-    console.debug(resultNotification);
-    return
   }
 
-  const reminderTime = new Date(`${date} ${time}`)
-  const reminderTimeUnix = reminderTime.getTime() / 1000
-
-  // バリデーション 時刻が未来の日時になっているかどうか確認
-  if (reminderTime < new Date()) {
-    const resultNotification = app.client.chat.postMessage({
-      token: context.botToken,
-      channel: user.id,
-      text: `追加できなかった :sweat_drops:\n リマインダーには未来の日時を設定してね`
-    });
-    console.debug(resultNotification);
-    return
-  }
+  const reminderTimeUnix = new Date(`${date} ${time}`).getTime() / 1000
 
   try {
     // reminder を追加

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@slack/bolt": "^1.4.1"
+    "@slack/bolt": "^1.4.1",
+    "jest-date-mock": "^1.0.8"
   },
   "devDependencies": {
     "@types/jest": "^24.9.1",
