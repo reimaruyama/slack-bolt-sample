@@ -1,3 +1,7 @@
+
+/**
+ * boltのモーダル画面
+ */
 export interface ModalViews {
   type: "modal",
   callback_id: string,
@@ -7,10 +11,17 @@ export interface ModalViews {
   blocks: object
 };
 
-
+/**
+ * モーダル画面のjsonを構築する
+ */
 export class ModalViewsBuilder {
   //TODO: 他のユーザーにも通知できるようにする
   //TODO: multi_users_select でできそう
+  /**
+   * 最初のモーダル画面を返す
+   *
+   * @return ModalViews
+   */
   static standardViews():ModalViews {
     const date: Date = new Date()
     const initialDate: string = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
